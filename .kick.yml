@@ -1,7 +1,9 @@
 # Kickstart container config file - see https://gitub.com/infracamp/kickstart
 # Run ./kickstart.sh to start a development-container for this project
 version: 1
-from: "nfra/kickstart-flavor-php:7.4"
+from: "ghcr.io/nfra-project/kickstart-flavor-php:unstable"
+
+packages: [php8.0-curl, php8.0-http, php8.0-raphf, php8.0-redis, php8.0-sqlite]
 command:
   build:
     - "composer update"
