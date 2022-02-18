@@ -1,0 +1,42 @@
+{
+    "name": "lack/subscription",
+    "type": "library",
+    "description": "Manage subscriptions accross microservices",
+    "keywords": ["lack", "subscription", "microservice"],
+    "homepage": "https://infracamp.org",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Matthias Leuffen",
+            "email": "matthes@leuffen.de"
+        }
+    ],
+    "require": {
+        "php": ">=8.0",
+        "phore/http-client": "*"
+    },
+
+    "require-dev": {
+        "phore/tester": "*",
+        "brace/core": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Lack\\Subscription\\": "src"
+        },
+        "files": [
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+        }
+    },
+    "minimum-stability": "dev",
+    "config": {
+        "preferred-install": "source"
+    },
+    "extra": {
+        "branch-alias": {
+        }
+    }
+}
