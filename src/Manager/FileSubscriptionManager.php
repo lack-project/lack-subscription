@@ -59,4 +59,21 @@ class FileSubscriptionManager implements SubscriptionManagerInterface
 
         return $subscriptionData;
     }
+
+    public function getSubscriptionsByClientId(string $clientId) : array 
+    {
+        $subscriptions = [];
+        foreach ($this->rootDir->getListSorted() as $uri) {
+            
+            $main = $uri->withSubPath("_main.yml");
+            if ( ! $main->exists())
+                continue;
+            $config = $uri->withSubPath($clientId . ".yml");
+            if ( ! $config->exists())
+                continue;
+            $subscriptions[] = $uri->getRelPath();
+        }
+        return $subscriptions;
+    }
+
 }
