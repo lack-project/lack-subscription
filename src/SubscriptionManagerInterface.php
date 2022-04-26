@@ -4,8 +4,9 @@ namespace Lack\Subscription;
 
 interface SubscriptionManagerInterface
 {
-
-    public function getSubscriptionById(string $subscriptionId, string $clientId=null) : SubscriptionInterface;
+    
+    
+    public function getSubscriptionById(string $subscriptionId, bool $includePrivateData = false) : SubscriptionInterface;
 
     /**
      * @param string $clientId

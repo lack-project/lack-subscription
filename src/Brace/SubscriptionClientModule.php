@@ -18,7 +18,7 @@ class SubscriptionClientModule implements BraceModule
     public function __construct($endpoint, $clientId=null, $clientSecret=null)
     {
         if (str_starts_with($endpoint, "/")) {
-            $this->manager = new FileSubscriptionManager($endpoint);
+            $this->manager = new FileSubscriptionManager($endpoint, $clientId);
             return;
         }
         $this->manager = new RemoteSubscriptionManager($endpoint, $clientId, $clientSecret);

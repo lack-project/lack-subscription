@@ -20,16 +20,17 @@ class RemoteSubscriptionManager implements SubscriptionManagerInterface
     }
 
 
-    public function getSubscriptionById(string $subscriptionId, string $clientId = null): SubscriptionInterface
+    public function getSubscriptionById(string $subscriptionId, bool $includePrivateData = false): SubscriptionInterface
     {
         $url = $this->baseUrl . "sub/{subscriptionId}/client/";
-        if ($clientId !== null)
+        if ($this->clientId !== null)
             $url .= "{clientId}";
-        $req = phore_http_request($url, ["subscriptionId" => $subscriptionId, "clientId" => $clientId]);
+        $req = phore_http_request($url, ["subscriptionId" => $subscriptionId, "clientId" => $this->clientId]);
         if ($this->clientId !== null)
             $req = $req->withBasicAuth($this->clientId, $this->clientSecret);
 
         $data = $req->send()->getBodyJson(T_Subscription::class);
+        $data->__clientId = $this->clientId;
         return $data;
 
     }

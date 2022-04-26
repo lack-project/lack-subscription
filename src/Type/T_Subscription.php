@@ -8,6 +8,12 @@ class T_Subscription implements SubscriptionInterface
 {
 
     public function __construct(
+
+        /**
+         * @var string|null
+         */
+        public string|null $__clientId,
+
         /**
          * @bool
          */
@@ -58,6 +64,41 @@ class T_Subscription implements SubscriptionInterface
 
     public function isAllowedOrigin(string $origin): bool
     {
-        return false;
+        return origin_match($origin, $this->allow_origins);
+    }
+
+
+    /**
+     * @template T
+     * @param string $clientId
+     * @param class-string<T> $cast
+     * @return array|T
+     */
+    public function getClientPrivateConfig(string $clientId = null, string $cast=null) : array|object
+    {
+        if ($clientId === null)
+            $clientId = $this->__clientId;
+        $data = $this->clients[$clientId]->private;
+        if ($cast !== null) {
+            return phore_hydrate($data, $cast);
+        }
+        return $data;
+    }
+
+    /**
+     * @template T
+     * @param string $clientId
+     * @param class-string<T> $cast
+     * @return array|T
+     */
+    public function getClientPublicConfig(string $clientId = null, string $cast=null) : array|object
+    {
+        if ($clientId === null)
+            $clientId = $this->__clientId;
+        $data = $this->clients[$clientId]->public;
+        if ($cast !== null) {
+            return phore_hydrate($data, $cast);
+        }
+        return $data;
     }
 }

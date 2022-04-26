@@ -16,13 +16,18 @@ class FileSubscriptionManager implements SubscriptionManagerInterface
      */
     private $rootDir;
 
-    public function __construct(string $rootDir)
+
+
+    public function __construct(
+        string $rootDir,
+        public string|null $clientId=null
+    )
     {
         $this->rootDir = phore_dir($rootDir)->assertDirectory();
     }
 
 
-    public function getSubscriptionById(string $subscriptionId, string $clientId = null, bool $includePrivateData = false): SubscriptionInterface|T_Subscription
+    public function getSubscriptionById(string $subscriptionId, bool $includePrivateData = false): SubscriptionInterface|T_Subscription
     {
         $subscriptionDir = $this->rootDir->withSubPath($subscriptionId);
         if ( ! $subscriptionDir->isDirectory())
@@ -31,10 +36,11 @@ class FileSubscriptionManager implements SubscriptionManagerInterface
         $subscriptionDir = $subscriptionDir->assertDirectory();
 
         $mainFile = $subscriptionDir->withSubPath("_main.yml")->assertFile();
-        $subscriptionData = $mainFile->get_yaml(class: T_Subscription::class);
+        $subscriptionData = $mainFile->get_yaml(cast: T_Subscription::class);
 
         assert($subscriptionData instanceof T_Subscription);
 
+        $subscriptionData->__clientId = $this->clientId;
         $subscriptionData->subscription_id = $subscriptionDir->getFilename();
         $subscriptionData->clients = [];
 
@@ -43,7 +49,7 @@ class FileSubscriptionManager implements SubscriptionManagerInterface
         }
 
         foreach ($subscriptionDir->genWalk("*.yml") as $file) {
-            if ($file->getFilename() !== $clientId)
+            if ($file->getFilename() !== $this->clientId)
                 continue;
             $file = $file->assertFile();
             $clientConfig = $file->get_yaml(T_ClientConfig::class);
@@ -60,11 +66,11 @@ class FileSubscriptionManager implements SubscriptionManagerInterface
         return $subscriptionData;
     }
 
-    public function getSubscriptionsByClientId(string $clientId) : array 
+    public function getSubscriptionsByClientId(string $clientId) : array
     {
         $subscriptions = [];
         foreach ($this->rootDir->getListSorted() as $uri) {
-            
+
             $main = $uri->withSubPath("_main.yml");
             if ( ! $main->exists())
                 continue;
