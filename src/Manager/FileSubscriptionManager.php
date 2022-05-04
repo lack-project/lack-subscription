@@ -36,7 +36,7 @@ class FileSubscriptionManager implements SubscriptionManagerInterface
         $subscriptionDir = $subscriptionDir->assertDirectory();
 
         $mainFile = $subscriptionDir->withSubPath("_main.yml")->assertFile();
-        $subscriptionData = $mainFile->get_yaml(cast: T_Subscription::class);
+        $subscriptionData = $mainFile->get_yaml(T_Subscription::class);
 
         assert($subscriptionData instanceof T_Subscription);
 
