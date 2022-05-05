@@ -47,7 +47,7 @@ class T_Subscription implements SubscriptionInterface
         public array $allow_origins,
 
         /**
-         * @var T_ClientConfig[]|null
+         * @var array<string, T_ClientConfig>|null
          */
         public array|null $clients = null,
 
@@ -60,10 +60,13 @@ class T_Subscription implements SubscriptionInterface
          * @var array|null
          */
         public array|null $private = null
-    ){}
+    ){
+      
+    }
 
     public function isAllowedOrigin(string $origin): bool
     {
+        
         return origin_match($origin, $this->allow_origins);
     }
 
