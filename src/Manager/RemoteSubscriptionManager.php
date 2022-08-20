@@ -43,8 +43,8 @@ class RemoteSubscriptionManager implements SubscriptionManagerInterface
         if ($clientId === null)
             throw new \InvalidArgumentException("ClientId is not set");
         
-        $url = $this->baseUrl . "client/?";
-        $req = phore_http_request($url, [$clientId]);
+        $url = $this->baseUrl . "client/{clientId}";
+        $req = phore_http_request($url, ["clientId" => $clientId]);
         if ($this->clientId !== null)
             $req = $req->withBasicAuth($this->clientId, $this->clientSecret);
         return $req->send()->getBodyJson();
