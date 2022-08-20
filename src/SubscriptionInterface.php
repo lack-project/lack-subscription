@@ -11,9 +11,9 @@ interface SubscriptionInterface
      * @template T
      * @param string $clientId
      * @param class-string<T> $cast
-     * @return array|T
+     * @return T
      */
-    public function getClientPrivateConfig(string $clientId=null, string $cast=null) : array|object;
+    public function getClientPrivateConfig(string $clientId=null, string $cast=null);
     
      /**
      * @template T

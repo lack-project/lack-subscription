@@ -27,7 +27,7 @@ class FileSubscriptionManager implements SubscriptionManagerInterface
     }
 
 
-    public function getSubscriptionById(string $subscriptionId, bool $includePrivateData = false): SubscriptionInterface|T_Subscription
+    public function getSubscriptionById(string $subscriptionId, bool $includePrivateData = false): T_Subscription
     {
         $subscriptionDir = $this->rootDir->withSubPath($subscriptionId);
         if ( ! $subscriptionDir->isDirectory())
@@ -66,8 +66,14 @@ class FileSubscriptionManager implements SubscriptionManagerInterface
         return $subscriptionData;
     }
 
-    public function getSubscriptionsByClientId(string $clientId) : array
+    public function getSubscriptionsByClientId(string $clientId = null) : array
     {
+        if ($clientId === null)
+            $clientId = $this->clientId;
+
+          if ($clientId === null)
+            throw new \InvalidArgumentException("ClientId is not set");
+
         $subscriptions = [];
         foreach ($this->rootDir->getListSorted() as $uri) {
 

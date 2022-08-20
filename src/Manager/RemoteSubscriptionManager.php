@@ -20,7 +20,7 @@ class RemoteSubscriptionManager implements SubscriptionManagerInterface
     }
 
 
-    public function getSubscriptionById(string $subscriptionId, bool $includePrivateData = false): SubscriptionInterface
+    public function getSubscriptionById(string $subscriptionId, bool $includePrivateData = false): T_Subscription
     {
         $url = $this->baseUrl . "sub/{subscriptionId}/client/";
         if ($this->clientId !== null)
@@ -35,8 +35,14 @@ class RemoteSubscriptionManager implements SubscriptionManagerInterface
 
     }
 
-    public function getSubscriptionsByClientId(string $clientId): array
+    public function getSubscriptionsByClientId(string $clientId = null): array
     {
+        if ($clientId === null)
+            $clientId = $this->clientId;
+        
+        if ($clientId === null)
+            throw new \InvalidArgumentException("ClientId is not set");
+        
         $url = $this->baseUrl . "client/?";
         $req = phore_http_request($url, [$subscriptionId, $clientId]);
         if ($this->clientId !== null)

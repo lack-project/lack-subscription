@@ -2,16 +2,18 @@
 
 namespace Lack\Subscription;
 
+use Lack\Subscription\Type\T_Subscription;
+
 interface SubscriptionManagerInterface
 {
     
     
-    public function getSubscriptionById(string $subscriptionId, bool $includePrivateData = false) : SubscriptionInterface;
+    public function getSubscriptionById(string $subscriptionId, bool $includePrivateData = false) : T_Subscription;
 
     /**
      * @param string $clientId
-     * @return array
+     * @return string[]     All active SubscriptionIds
      */
-    public function getSubscriptionsByClientId(string $clientId) : array;
+    public function getSubscriptionsByClientId(string $clientId = null) : array;
 
 }

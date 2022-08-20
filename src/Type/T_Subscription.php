@@ -4,6 +4,9 @@ namespace Lack\Subscription\Type;
 
 use Lack\Subscription\SubscriptionInterface;
 
+/**
+ * 
+ */
 class T_Subscription implements SubscriptionInterface
 {
 
@@ -75,9 +78,9 @@ class T_Subscription implements SubscriptionInterface
      * @template T
      * @param string $clientId
      * @param class-string<T> $cast
-     * @return array|T
+     * @return T
      */
-    public function getClientPrivateConfig(string $clientId = null, string $cast=null) : array|object
+    public function getClientPrivateConfig(string $clientId = null, string $cast=null)
     {
         if ($clientId === null)
             $clientId = $this->__clientId;
