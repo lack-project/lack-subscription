@@ -27,7 +27,6 @@ class StructTemplate
             switch ($type) {
                 case "boolean":
                 case "bool":
-                    print_r ($value);
                     if ($value === "true")
                         return true;
                     if ($value === "false")
