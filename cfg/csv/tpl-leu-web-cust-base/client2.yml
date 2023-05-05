@@ -1,0 +1,6 @@
+active: "{{ client2.active : boolean = false }}"
+public:
+  host_config: abc
+
+private:
+  private_config: abc

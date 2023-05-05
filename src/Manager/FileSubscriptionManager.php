@@ -17,28 +17,48 @@ class FileSubscriptionManager implements SubscriptionManagerInterface
     private $rootDir;
 
 
+    private $clientDataReader;
 
     public function __construct(
         string $rootDir,
         public string|null $clientId=null
     )
     {
+        $this->clientDataReader = fn($input) => $input;
         $this->rootDir = phore_dir($rootDir)->assertDirectory();
     }
 
 
+    protected function setClientDataReader(callable $reader) {
+        $this->clientDataReader = $reader;
+    }
+
+
+    // Default: Validate the subscription id does not start with "tpl-" or "." and is at least 3 chars long
+    protected $saveMode = true;
+
     public function getSubscriptionById(string $subscriptionId, bool $includePrivateData = false): T_Subscription
     {
+        if ($this->saveMode && (startsWith($subscriptionId, "tpl-") || startsWith($subscriptionId, ".") || strlen(trim($subscriptionId)) < 3))
+            throw new SubscriptionIdInvalidException("Invalid subscription id: '$subscriptionId' (Invalid value)");
+
         $subscriptionDir = $this->rootDir->withSubPath($subscriptionId);
+
         if ( ! $subscriptionDir->isDirectory())
             throw new SubscriptionIdInvalidException("subscription_id: '$subscriptionId' not found");
 
         $subscriptionDir = $subscriptionDir->assertDirectory();
 
         $mainFile = $subscriptionDir->withSubPath("_main.yml")->assertFile();
-        $subscriptionData = $mainFile->get_yaml(T_Subscription::class);
+
+        $subscriptionData = $mainFile->get_yaml();
+        $subscriptionData = ($this->clientDataReader)($subscriptionData);
+        $subscriptionData = phore_hydrate($subscriptionData, T_Subscription::class);
 
         assert($subscriptionData instanceof T_Subscription);
+
+        if ($subscriptionData->active === false)
+            throw new SubscriptionIdInvalidException("subscription_id: '$subscriptionId' is not active");
 
         $subscriptionData->__clientId = $this->clientId;
         $subscriptionData->subscription_id = $subscriptionDir->getFilename();
@@ -49,10 +69,16 @@ class FileSubscriptionManager implements SubscriptionManagerInterface
         }
 
         foreach ($subscriptionDir->genWalk("*.yml") as $file) {
-            if ($file->getFilename() !== $this->clientId)
+
+            if ($file->getFilename() === "_main")
+                continue;
+            if ($file->getFilename() !== $this->clientId && $this->clientId !== null)
                 continue;
             $file = $file->assertFile();
-            $clientConfig = $file->get_yaml(T_ClientConfig::class);
+            $clientConfig = $file->get_yaml();
+            $clientConfig = ($this->clientDataReader)($clientConfig);
+            $clientConfig = phore_hydrate($clientConfig, T_ClientConfig::class);
+
             if ( ! $includePrivateData) {
                 unset($clientConfig->private);
             }
@@ -76,7 +102,8 @@ class FileSubscriptionManager implements SubscriptionManagerInterface
 
         $subscriptions = [];
         foreach ($this->rootDir->getListSorted() as $uri) {
-
+            if (startsWith("tpl-", $uri->getFilename()) || startsWith(".", $uri->getFilename()))
+                continue;
             $main = $uri->withSubPath("_main.yml");
             if ( ! $main->exists())
                 continue;

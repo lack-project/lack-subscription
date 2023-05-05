@@ -1,0 +1,12 @@
+version: 1
+active: "{{ active : boolean = true }}"
+subscription_id: "{{ subscription_id : string }}"
+desc: ""
+origin: "{{ origin : string }}"
+allow_origins:
+- "{{ origin : string }}"
+
+public:
+  public_config: "*"
+private:
+  private_config: "*"

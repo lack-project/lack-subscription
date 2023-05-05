@@ -2,12 +2,19 @@
 
 namespace Lack\Subscription;
 
+use Lack\Subscription\Ex\SubscriptionIdInvalidException;
 use Lack\Subscription\Type\T_Subscription;
 
 interface SubscriptionManagerInterface
 {
-    
-    
+
+    /**
+     *
+     * @throws SubscriptionIdInvalidException
+     * @param string $subscriptionId
+     * @param bool $includePrivateData
+     * @return T_Subscription
+     */
     public function getSubscriptionById(string $subscriptionId, bool $includePrivateData = false) : T_Subscription;
 
     /**
