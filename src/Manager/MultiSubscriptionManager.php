@@ -18,8 +18,16 @@ class MultiSubscriptionManager implements SubscriptionManagerInterface
 
     }
 
+
+
     public function addSubscriptionManager(SubscriptionManagerInterface $manager) {
         $this->managers[] = $manager;
+    }
+
+    public function setClientId(string $clientId = null): void
+    {
+        foreach ($this->managers as $manager)
+            $manager->setClientId($clientId);
     }
 
     public function getSubscriptionById(string $subscriptionId, bool $includePrivateData = false): T_Subscription

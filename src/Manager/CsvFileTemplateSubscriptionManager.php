@@ -71,5 +71,8 @@ class CsvFileTemplateSubscriptionManager extends FileSubscriptionManager
     }
 
 
-
+    public function setClientId(string $clientId = null): void
+    {
+        $this->clientId = $clientId;
+    }
 }

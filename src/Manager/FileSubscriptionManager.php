@@ -115,4 +115,8 @@ class FileSubscriptionManager implements SubscriptionManagerInterface
         return $subscriptions;
     }
 
+    public function setClientId(string $clientId = null): void
+    {
+        $this->clientId = $clientId;
+    }
 }

@@ -19,6 +19,10 @@ class RemoteSubscriptionManager implements SubscriptionManagerInterface
             $this->baseUrl .= "/";
     }
 
+    public function setClientId(string $clientId = null): void
+    {
+        $this->clientId = $clientId;
+    }
 
     public function getSubscriptionById(string $subscriptionId, bool $includePrivateData = false): T_Subscription
     {

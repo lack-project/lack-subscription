@@ -8,6 +8,8 @@ use Lack\Subscription\Type\T_Subscription;
 interface SubscriptionManagerInterface
 {
 
+    public function setClientId(string $clientId = null) : void;
+
     /**
      *
      * @throws SubscriptionIdInvalidException
