@@ -17,7 +17,7 @@ class StructTemplate
         }
 
         // In preg space character is
-        if (preg_match("/\{\{\s*([a-zA-Z0-9_.]+)\s*:\s*([a-zA-Z0-9_]+)(\s*=\s*(.*?))?\s*\}\}/", $input, $matches)) {
+        if (is_string($input) && preg_match("/\{\{\s*([a-zA-Z0-9_.]+)\s*:\s*([a-zA-Z0-9_]+)(\s*=\s*(.*?))?\s*\}\}/", $input, $matches)) {
             $key = trim($matches[1]);
             $type = trim($matches[2]);
             $default = $matches[4] ?? null;
