@@ -42,7 +42,6 @@ class StructTemplate
                     throw new \InvalidArgumentException("Unknown type '$type'");
             }
             
-               
         }
         return $input;
     }
