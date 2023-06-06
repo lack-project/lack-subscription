@@ -37,7 +37,7 @@ class StructTemplate
                     return intval($value);
 
                 case "string":
-                    return preg_replace("/\{\{.*?\}\}/im", $value, $input);
+                    return preg_replace("/\{\{.*?\}\}/im", $value ?? "", $input);
                 default:
                     throw new \InvalidArgumentException("Unknown type '$type'");
             }
