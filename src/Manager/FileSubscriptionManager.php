@@ -102,8 +102,8 @@ class FileSubscriptionManager implements SubscriptionManagerInterface
 
         $subscriptions = [];
         foreach ($this->rootDir->getListSorted() as $uri) {
-            if (startsWith("tpl-", $uri->getFilename()) || startsWith(".", $uri->getFilename()))
-                continue;
+            if (startsWith($uri->getBasename(), "tpl-") || startsWith(".", $uri->getFilename()))
+                continue; // Do not include templates
             $main = $uri->withSubPath("_main.yml");
             if ( ! $main->exists())
                 continue;
