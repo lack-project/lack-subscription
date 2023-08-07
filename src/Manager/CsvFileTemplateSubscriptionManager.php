@@ -14,7 +14,7 @@ class CsvFileTemplateSubscriptionManager extends FileSubscriptionManager
         string $rootDir=null,
         private string $subscriptionFieldName = "subscription_id",
         private string $templateFieldName="template",
-        private $csvOptions = ["delimiter" => ",", "header" => true]
+        private $csvOptions = ["delimiter" => ",", "header" => true, "skip_invalid"=>true]
     )
     {
         if ($rootDir === null)
