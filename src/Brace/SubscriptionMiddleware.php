@@ -28,10 +28,9 @@ class SubscriptionMiddleware extends BraceAbstractMiddleware
         private string $defineName = "subscription"
     )
     {
-        parent::__construct();
-        
+
     }
-    
+
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $subscriptionId = $request->getQueryParams()["subscription_id"] ?? null;
