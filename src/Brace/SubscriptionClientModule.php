@@ -2,6 +2,7 @@
 
 namespace Lack\Subscription\Brace;
 
+use Brace\Command\CliValueArgument;
 use Brace\Core\Base\CallbackMiddleware;
 use Brace\Core\BraceApp;
 use Brace\Core\BraceModule;
@@ -31,5 +32,13 @@ class SubscriptionClientModule implements BraceModule
         $app->define("subscriptionManager", new DiService(function() {
             return $this->manager;
         }));
+        if ($app->has("command")) {
+            $app->command->addGlobalArgument(new CliValueArgument("--subscription_id", "Subscription id"), function (string $value, BraceApp $app) {
+                $app->define("subscription", new DiService(function() use ($value, $app) {
+                    $manager = $app->get("subscriptionManager", SubscriptionManagerInterface::class);
+                    return $manager->getSubscriptionById($value, true);
+                }));
+            });
+        }
     }
 }
