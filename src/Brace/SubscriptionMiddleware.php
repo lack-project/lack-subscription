@@ -39,6 +39,10 @@ class SubscriptionMiddleware extends BraceAbstractMiddleware
             if ($rp->has("subscription_id"))
                 $subscriptionId = $rp->get("subscription_id");
         }
+        
+        if ($subscriptionId === null)
+            $subscriptionId = explode("/", $request->getUri()->getPath())[1] ?? null; //Take first part of route as subscriptionId
+        
         $this->app->define($this->defineName, new DiService(function() use ($subscriptionId) {
             if ($subscriptionId === null)
                 throw new \InvalidArgumentException("Parameter subscription_id is missing");
