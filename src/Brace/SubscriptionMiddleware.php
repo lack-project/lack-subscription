@@ -25,7 +25,9 @@ class SubscriptionMiddleware extends BraceAbstractMiddleware
          *
          * @var string
          */
-        private string $defineName = "subscription"
+        private string $defineName = "subscription",
+        
+        private bool $loadFromRoute = false
     )
     {
 
@@ -40,7 +42,7 @@ class SubscriptionMiddleware extends BraceAbstractMiddleware
                 $subscriptionId = $rp->get("subscription_id");
         }
         
-        if ($subscriptionId === null)
+        if ($subscriptionId === null && $this->loadFromRoute)
             $subscriptionId = explode("/", $request->getUri()->getPath())[1] ?? null; //Take first part of route as subscriptionId
         
         $this->app->define($this->defineName, new DiService(function() use ($subscriptionId) {
