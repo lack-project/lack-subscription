@@ -50,3 +50,17 @@ public function loadSubscription(T_Subscritpion $subscription)
 }
 ```
 
+
+### In Routes (as Middleware)
+
+```php
+AppLoader::extend(function (BraceApp $app) {
+
+    $mount = CONF_API_MOUNT;
+
+    $subscriptionAuthValidatorMw = new SubscriptionBasicAuthValidationMiddleware();
+
+
+    // Validate auth token from mailbox of subscription
+    $app->router->registerClass($mount, DocFusionApiCtrl::class, [$subscriptionAuthValidatorMw]);
+```
