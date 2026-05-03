@@ -5,7 +5,7 @@ namespace Lack\Subscription\Type;
 use Lack\Subscription\SubscriptionInterface;
 
 /**
- * 
+ *
  */
 class T_Subscription implements SubscriptionInterface
 {
@@ -30,7 +30,7 @@ class T_Subscription implements SubscriptionInterface
         /**
          * @var string|null
          */
-        public string|null $subscription_id = null,
+        public string|null $subscription_id,
 
         /**
          * @var string
@@ -64,12 +64,12 @@ class T_Subscription implements SubscriptionInterface
          */
         public array|null $private = null
     ){
-      
+
     }
 
     public function isAllowedOrigin(string $origin): bool
     {
-        
+
         return origin_match($origin, $this->allow_origins);
     }
 
@@ -84,6 +84,8 @@ class T_Subscription implements SubscriptionInterface
     {
         if ($clientId === null)
             $clientId = $this->__clientId;
+        if ( ! isset($this->clients[$clientId]) )
+            throw new \InvalidArgumentException("Client with id '$clientId' not found in subscription");
         $data = $this->clients[$clientId]->private;
         if ($cast !== null) {
             return phore_hydrate($data, $cast);
