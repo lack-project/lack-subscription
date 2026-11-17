@@ -19,7 +19,7 @@ class RemoteSubscriptionManager implements SubscriptionManagerInterface
             $this->baseUrl .= "/";
     }
 
-    public function setClientId(string $clientId = null): void
+    public function setClientId(?string $clientId = null): void
     {
         $this->clientId = $clientId;
     }
@@ -39,7 +39,7 @@ class RemoteSubscriptionManager implements SubscriptionManagerInterface
 
     }
 
-    public function getSubscriptionsByClientId(string $clientId = null): array
+    public function getSubscriptionsByClientId(?string $clientId = null): array
     {
         if ($clientId === null)
             $clientId = $this->clientId;

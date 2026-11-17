@@ -18,9 +18,9 @@
     },
 
     "require-dev": {
-        "phore/tester": "*",
         "brace/core": "*",
-        "phore/filesystem": "*"
+        "phore/filesystem": "*",
+        "phpspec/phpspec": "^7.6 || ^8.3"
     },
     "autoload": {
         "psr-4": {
@@ -31,7 +31,11 @@
     },
     "autoload-dev": {
         "psr-4": {
+            "spec\\Lack\\Subscription\\": "spec/"
         }
+    },
+    "scripts": {
+        "test": "phpspec run"
     },
     "minimum-stability": "dev",
     "config": {

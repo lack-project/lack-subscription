@@ -11,7 +11,7 @@ class CsvFileTemplateSubscriptionManager extends FileSubscriptionManager
 
     public function __construct(
         private string $csvFile,
-        string $rootDir=null,
+        ?string $rootDir=null,
         private string $subscriptionFieldName = "subscription_id",
         private string $templateFieldName="template",
         private $csvOptions = ["delimiter" => ",", "header" => true, "skip_invalid"=>true]
@@ -54,7 +54,7 @@ class CsvFileTemplateSubscriptionManager extends FileSubscriptionManager
         throw new SubscriptionIdInvalidException("subscription_id: '$subscriptionId' not found");
     }
 
-    public function getSubscriptionsByClientId(string $clientId = null): array
+    public function getSubscriptionsByClientId(?string $clientId = null): array
     {
         $csv = phore_file($this->csvFile)->parseCsv($this->csvOptions);
         $subscriptions = [];
@@ -71,7 +71,7 @@ class CsvFileTemplateSubscriptionManager extends FileSubscriptionManager
     }
 
 
-    public function setClientId(string $clientId = null): void
+    public function setClientId(?string $clientId = null): void
     {
         $this->clientId = $clientId;
     }
