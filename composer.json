@@ -14,7 +14,7 @@
     "require": {
         "php": ">=8.0",
         "phore/http-client": "*",
-        "phore/hydrator": "^1.2.0"
+        "phore/hydrator": "^1.3.0"
     },
 
     "require-dev": {
