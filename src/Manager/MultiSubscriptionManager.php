@@ -24,7 +24,7 @@ class MultiSubscriptionManager implements SubscriptionManagerInterface
         $this->managers[] = $manager;
     }
 
-    public function setClientId(string $clientId = null): void
+    public function setClientId(?string $clientId = null): void
     {
         foreach ($this->managers as $manager)
             $manager->setClientId($clientId);
@@ -42,7 +42,7 @@ class MultiSubscriptionManager implements SubscriptionManagerInterface
         throw new SubscriptionIdInvalidException("subscription_id: '$subscriptionId' not found");
     }
 
-    public function getSubscriptionsByClientId(string $clientId = null): array
+    public function getSubscriptionsByClientId(?string $clientId = null): array
     {
         $subscriptions = [];
         foreach ($this->managers as $curManager) {

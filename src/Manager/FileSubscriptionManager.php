@@ -92,7 +92,7 @@ class FileSubscriptionManager implements SubscriptionManagerInterface
         return $subscriptionData;
     }
 
-    public function getSubscriptionsByClientId(string $clientId = null) : array
+    public function getSubscriptionsByClientId(?string $clientId = null) : array
     {
         if ($clientId === null)
             $clientId = $this->clientId;
@@ -115,7 +115,7 @@ class FileSubscriptionManager implements SubscriptionManagerInterface
         return $subscriptions;
     }
 
-    public function setClientId(string $clientId = null): void
+    public function setClientId(?string $clientId = null): void
     {
         $this->clientId = $clientId;
     }

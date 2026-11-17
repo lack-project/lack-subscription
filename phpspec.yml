@@ -1,0 +1,4 @@
+suites:
+  subscription:
+    namespace: Lack\Subscription
+    psr4_prefix: Lack\Subscription

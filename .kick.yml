@@ -9,7 +9,7 @@ command:
     - "composer update"
   init:
   test:
-    - "vendor/bin/phpunit --bootstrap vendor/autoload.php --testdox test"
+    - "composer test"
   run:
   dev:
     - "echo 'I am executed in dev mode'"
